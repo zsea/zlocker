@@ -27,3 +27,5 @@ callback：function(err);
 locker.unlock(callback);
 locker.unlockSync();
 ```
+
+callback：function(err);

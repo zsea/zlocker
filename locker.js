@@ -7,9 +7,10 @@ function Locker(options) {
     var hasLock = false;
     var lockerDir = options.dir || "./.locker/";
     if (lockerDir[lockerDir.length - 1] !== "/") dir = dir + "/";
-    if(!fs.existsSync(lockerDir)) fs.mkdirSync(lockerDir);
+    if (!fs.existsSync(lockerDir)) fs.mkdirSync(lockerDir);
     lockerDir = lockerDir + "locker";
     this.lock = function Lock(cb) {
+        cb = cb || function () { };
         if (hasLock) return;
         fs.mkdir(lockerDir, function (err) {
             if (err) return cb(err);
@@ -28,6 +29,7 @@ function Locker(options) {
         hasLock = true;
     }
     this.unlock = function (cb) {
+        cb = cb || function () { };
         if (!hasLock) return cb();
         fs.unlink(lockerDir + '/' + process.pid + ".pid", function (err) {
             if (err) return cb(err);
@@ -46,4 +48,4 @@ function Locker(options) {
         hasLock = false;
     }
 }
-module.exports=Locker;
+module.exports = Locker;
